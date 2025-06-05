@@ -1,22 +1,30 @@
 {
   "expo": {
     "name": "welcome",
-    "slug": "welcome",
+    "slug": "freecode",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/cafe-icone.png",
     "scheme": "welcome",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
+    "owner": "lucaskps",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.lucaskps.welcome",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.lucaskps.welcome",
+      "versionCode": 1,
+      "permissions": []
     },
     "web": {
       "bundler": "metro",
@@ -37,6 +45,17 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d9a36f0d-e7d4-4261-ad5e-f647179f2d67"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/d9a36f0d-e7d4-4261-ad5e-f647179f2d67"
     }
   }
 }
