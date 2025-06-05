@@ -1,13 +1,13 @@
 {
-  "cli": {
-    "version": ">= 16.7.2",
-    "appVersionSource": "remote"
-  },
   "build": {
-    "preview":{
+    "preview": {
       "android": {
-      "buildType": "apk"
+        "buildType": "apk"
       }
-    }
+    },
+    "preview4": {
+      "distribution": "internal"
+    },
+    "production": {}
   }
 }
