@@ -1,14 +1,13 @@
 {
   "expo": {
     "name": "welcome",
-    "slug": "freecode",
+    "slug": "freecode-3yudihujhv90kdygf0jaf",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/cafe-icone.png",
     "scheme": "welcome",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": false,
-    "owner": "lucaskps",
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.lucaskps.welcome",
@@ -36,24 +35,19 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/cafe-icone.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
       ]
     ],
-    "experiments": {
-      "typedRoutes": true
-    },
     "extra": {
       "eas": {
         "projectId": "1364293a-d61c-4021-8c3a-1590915a6ee8"
       }
     },
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
+    "runtimeVersion": "1.0.0",
     "updates": {
       "url": "https://u.expo.dev/1364293a-d61c-4021-8c3a-1590915a6ee8"
     }

@@ -1,8 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet, Appearance, Image, Linking, Pressable, Platform, ScrollView, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, Appearance, Linking, Pressable, Platform, ScrollView, SafeAreaView, Image } from 'react-native';
 import { Colors } from '@/constants/Colors';
-
-const COFFEE_IMAGE = require('@/assets/images/cafecontact.png');
 
 export default function Contact() {
   const colorScheme = Appearance.getColorScheme();
@@ -13,7 +11,7 @@ export default function Contact() {
   return (
     <Container style={Platform.OS === 'web' ? undefined : styles.container} contentContainerStyle={Platform.OS === 'web' ? styles.container : undefined}>
       <View style={styles.headerImgBox}>
-        <Image source={COFFEE_IMAGE} style={styles.headerImg} resizeMode="contain" />
+        <Image source={require('../assets/images/cafe-icone.png')} style={{ width: 120, height: 120, borderRadius: 60 }} />
       </View>
       <View style={styles.card}>
         <Text style={styles.title}>Coffee Shop</Text>
@@ -48,12 +46,6 @@ function createStyles(theme, colorScheme) {
       alignItems: 'center',
       marginTop: 24,
       marginBottom: 8,
-    },
-    headerImg: {
-      width: 180,
-      height: 140,
-      tintColor: colorScheme === 'dark' ? '#f5ecd7' : '#444',
-      opacity: 0.95,
     },
     card: {
       backgroundColor: colorScheme === 'dark' ? '#181818' : '#f5f5f5',
