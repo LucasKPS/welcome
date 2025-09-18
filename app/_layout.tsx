@@ -5,21 +5,23 @@ import { Ionicons } from '@expo/vector-icons';
 import { Appearance } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
+import { CartProvider, useCart } from '../constants/CartContext.js';
 
-import { Colors } from '@/constants/Colors';
+import { Colors } from '../constants/Colors'; // Ajuste para .js ou .ts conforme seu arquivo
 
 SplashScreen.preventAutoHideAsync();
 
-export default function Layout() {
+function LayoutContent() {
   const colorScheme = Appearance.getColorScheme();
-  const theme = colorScheme === 'dark' 
-    ? { ...Colors.dark, tabIconDefault: '#ccc' } 
+  const theme = colorScheme === 'dark'
+    ? { ...Colors.dark, tabIconDefault: '#ccc' }
     : { ...Colors.light, tabIconDefault: '#888' };
   const [loaded] = useFonts({
     SpaceMono: require('@/assets/fonts/SpaceMono-Regular.ttf'),
   });
   const pathname = usePathname();
   const router = useRouter();
+  const { cart } = useCart(); // Acessa o estado do carrinho via contexto
 
   useEffect(() => {
     if (loaded) {
@@ -37,7 +39,7 @@ export default function Layout() {
         <Slot />
       </View>
 
-      <View style={[styles.tabBar, { backgroundColor: theme.headerBackground, borderTopColor: colorScheme === 'dark' ? '#333' : '#ccc' }]}> 
+      <View style={[styles.tabBar, { backgroundColor: theme.headerBackground, borderTopColor: colorScheme === 'dark' ? '#333' : '#ccc' }]}>
         <TouchableOpacity
           style={styles.tabItem}
           onPress={() => router.push('/')}
@@ -48,7 +50,7 @@ export default function Layout() {
             size={28}
             color={pathname === '/' || pathname === '/index' ? theme.tint : theme.tabIconDefault}
           />
-          <Text style={[styles.tabText, (pathname === '/' || pathname === '/index') && styles.activeText, { color: pathname === '/' || pathname === '/index' ? theme.tint : theme.tabIconDefault }]}> 
+          <Text style={[styles.tabText, (pathname === '/' || pathname === '/index') && styles.activeText, { color: pathname === '/' || pathname === '/index' ? theme.tint : theme.tabIconDefault }]}>
             Home
           </Text>
         </TouchableOpacity>
@@ -63,12 +65,35 @@ export default function Layout() {
             size={28}
             color={pathname === '/contact' ? theme.tint : theme.tabIconDefault}
           />
-          <Text style={[styles.tabText, pathname === '/contact' && styles.activeText, { color: pathname === '/contact' ? theme.tint : theme.tabIconDefault }]}> 
+          <Text style={[styles.tabText, pathname === '/contact' && styles.activeText, { color: pathname === '/contact' ? theme.tint : theme.tabIconDefault }]}>
             Contact
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.tabItem}
+          onPress={() => router.push('/cart')}
+          disabled={pathname === '/cart'}
+        >
+          <Ionicons
+            name="cart"
+            size={28}
+            color={pathname === '/cart' ? theme.tint : theme.tabIconDefault}
+          />
+          <Text style={[styles.tabText, pathname === '/cart' && styles.activeText, { color: pathname === '/cart' ? theme.tint : theme.tabIconDefault }]}>
+            Carrinho ({cart.length})
           </Text>
         </TouchableOpacity>
       </View>
     </View>
+  );
+}
+
+export default function Layout() {
+  return (
+    <CartProvider>
+      <LayoutContent />
+    </CartProvider>
   );
 }
 

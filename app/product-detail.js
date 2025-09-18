@@ -1,15 +1,17 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, Appearance } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, Appearance, Pressable } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
+import { useCart } from '../constants/CartContext.js';
+import { MENU_IMAGES } from '../constants/MenuImages.js';
 
 export default function ProductDetailScreen() {
   const { id, title, description } = useLocalSearchParams();
+  const { addToCart } = useCart();
   const colorScheme = Appearance.getColorScheme();
   const theme = colorScheme === 'dark' 
-    ? { background: '#1a1a1a', text: '#fff', priceColor: '#2ecc71', detailText: '#ccc', cardBackground: '#252525', cardBorder: '#444' }
-    : { background: '#fff', text: '#333', priceColor: '#2c6e49', detailText: '#666', cardBackground: '#f9f9f9', cardBorder: '#ccc' };
+    ? { background: '#1a1a1a', text: '#fff', priceColor: '#2ecc71', detailText: '#ccc', cardBackground: '#252525', cardBorder: '#444', buttonBackground: '#2ecc71', buttonText: '#fff' }
+    : { background: '#fff', text: '#333', priceColor: '#2c6e49', detailText: '#666', cardBackground: '#f9f9f9', cardBorder: '#ccc', buttonBackground: '#2c6e49', buttonText: '#fff' };
 
-  // Dados fictícios de preço e informações detalhadas
   const productDetails = {
     1: { price: "R$ 5,00", details: "Café espresso puro, extraído com pressão para um sabor intenso." },
     2: { price: "R$ 6,00", details: "Espresso diluído com água quente, ideal para um café mais leve." },
@@ -19,21 +21,31 @@ export default function ProductDetailScreen() {
   };
 
   const item = productDetails[id] || { price: "R$ N/A", details: "Informações não disponíveis." };
+  const image = MENU_IMAGES.find(img => img.id === parseInt(id))?.image || require('../assets/images/Cafe-Espresso.png');
+
+  const handleBuy = () => {
+    const newItem = { id, title, price: item.price, image }; // Inclui a imagem no item
+    addToCart(newItem);
+    alert(`"${title}" adicionado ao carrinho!`);
+  };
 
   return (
     <ScrollView
-      style={{ backgroundColor: theme.background }} // Apenas background no style
-      contentContainerStyle={styles.contentContainer} // Centralização aplicada aqui
+      style={{ backgroundColor: theme.background }}
+      contentContainerStyle={styles.contentContainer}
     >
       <Text style={[styles.title, { color: theme.text }]}>{title}</Text>
       <View style={[styles.card, { backgroundColor: theme.cardBackground, borderColor: theme.cardBorder }]}>
         <Image
-          source={require('../assets/images/Cafe-Espresso.png')} // Substitua pelo caminho correto baseado no ID
+          source={image}
           style={styles.image}
           resizeMode="contain"
         />
         <Text style={[styles.price, { color: theme.priceColor }]}>Preço: {item.price}</Text>
         <Text style={[styles.details, { color: theme.detailText }]}>{item.details}</Text>
+        <Pressable style={[styles.buyButton, { backgroundColor: theme.buttonBackground }]} onPress={handleBuy}>
+          <Text style={[styles.buyButtonText, { color: theme.buttonText }]}>Comprar</Text>
+        </Pressable>
       </View>
     </ScrollView>
   );
@@ -43,8 +55,8 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexGrow: 1,
     padding: 16,
-    alignItems: 'center', // Centralização horizontal
-    justifyContent: 'center', // Centralização vertical (opcional, ajuste conforme necessário)
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   title: {
     fontSize: 28,
@@ -57,8 +69,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 16,
     marginBottom: 16,
-    width: '90%', // Define uma largura máxima para o card
-    alignItems: 'center', // Centraliza os itens dentro do card
+    width: '90%',
+    alignItems: 'center',
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -66,7 +78,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   image: {
-    width: '100%', // A imagem ocupa a largura total do card
+    width: '100%',
     height: 200,
     marginBottom: 16,
   },
@@ -74,11 +86,24 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 8,
-    textAlign: 'center', // Centraliza o texto do preço
+    textAlign: 'center',
   },
   details: {
     fontSize: 16,
     lineHeight: 24,
-    textAlign: 'center', // Centraliza o texto dos detalhes
+    textAlign: 'center',
+    marginBottom: 16,
+  },
+  buyButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginTop: 16,
+    width: '100%',
+    alignItems: 'center',
+  },
+  buyButtonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
